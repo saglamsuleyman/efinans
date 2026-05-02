@@ -40,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="robots" content="noindex, nofollow">
     <title>EfinanS Admin Girişi</title>
     <meta name="description" content="EfinanS yönetici giriş ekranı">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/admin.css">
 </head>
 <body class="admin-login-body">
@@ -53,19 +54,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form class="admin-login-card" method="post" action="login.php">
         <h2>Yönetici Girişi</h2>
         <?php if ($error): ?>
-            <div class="admin-alert error"><?= e($error); ?></div>
+            <div class="alert admin-alert error"><?= e($error); ?></div>
         <?php endif; ?>
         <label>
             Email
-            <input name="email" type="email" required autocomplete="email">
+            <input class="form-control" name="email" type="email" required autocomplete="email">
         </label>
         <label>
             Şifre
-            <input name="password" type="password" required autocomplete="current-password">
+            <input class="form-control" name="password" type="password" required autocomplete="current-password">
         </label>
         <button class="admin-button" type="submit">Yönetici Girişi</button>
         <a class="admin-ghost login-site-link" href="../index.php">Siteyi Görüntüle</a>
     </form>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -15,7 +15,7 @@ require_once __DIR__ . '/includes/header.php';
 <section class="section">
     <div class="news-grid expanded">
         <?php foreach ($newsItems as $item): ?>
-            <article class="news-card" itemscope itemtype="https://schema.org/Article">
+            <article class="news-card card" itemscope itemtype="https://schema.org/Article">
                 <?php if (!empty($item['image'])): ?>
                     <img class="news-thumb" src="<?= e($item['image']); ?>" alt="<?= e($item['title']); ?>" itemprop="image">
                 <?php else: ?>
@@ -25,7 +25,7 @@ require_once __DIR__ . '/includes/header.php';
                     <time datetime="<?= e($item['created_at']); ?>"><?= date('d.m.Y', strtotime($item['created_at'])); ?></time>
                     <h2 itemprop="headline"><?= e($item['title']); ?></h2>
                     <p itemprop="description"><?= e($item['summary'] ?: substr($item['content'], 0, 155)); ?></p>
-                    <a class="small-button" href="news-detail.php?id=<?= (int)$item['id']; ?>">Detay</a>
+                    <a class="btn btn-sm btn-outline-light small-button" href="news-detail.php?id=<?= (int)$item['id']; ?>">Detay</a>
                 </div>
             </article>
         <?php endforeach; ?>

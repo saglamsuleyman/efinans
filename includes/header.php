@@ -16,42 +16,47 @@ $displaySiteName = $siteSettings['site_name'] ?? 'EfinanS';
     <meta name="description" content="<?= e($metaDescription); ?>">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="<?= e('http://' . ($_SERVER['HTTP_HOST'] ?? 'localhost') . $_SERVER['REQUEST_URI']); ?>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= $basePath; ?>assets/css/style.css">
 </head>
 <body>
 <header class="site-header">
-    <nav class="navbar" aria-label="Ana menü">
-        <a class="logo" href="<?= $basePath; ?>index.php" aria-label="EfinanS ana sayfa">
+    <nav class="navbar navbar-expand-xl navbar-dark" aria-label="Ana menü">
+        <div class="container-fluid site-nav-container">
+        <a class="navbar-brand logo" href="<?= $basePath; ?>index.php" aria-label="EfinanS ana sayfa">
             <span><?= e(substr($displaySiteName, 0, 1)); ?></span><?= e(substr($displaySiteName, 1)); ?>
         </a>
-        <button class="menu-toggle" type="button" aria-label="Menüyü aç/kapat" aria-expanded="false">
-            <span></span><span></span><span></span>
+        <button class="navbar-toggler menu-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-label="Menüyü aç/kapat" aria-expanded="false">
+            <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="nav-links">
-            <a class="<?= activeClass('index.php'); ?>" href="<?= $basePath; ?>index.php">Ana Sayfa</a>
-            <div class="nav-dropdown">
-                <button type="button">Piyasalar</button>
-                <div class="dropdown-menu">
-                    <a class="<?= activeClass('markets.php'); ?>" href="<?= $basePath; ?>markets.php">Tüm Piyasalar</a>
-                    <a class="<?= activeClass('crypto.php'); ?>" href="<?= $basePath; ?>crypto.php">Kripto Paralar</a>
-                    <a class="<?= activeClass('forex.php'); ?>" href="<?= $basePath; ?>forex.php">Döviz</a>
-                    <a class="<?= activeClass('charts.php'); ?>" href="<?= $basePath; ?>charts.php">Grafikler</a>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+        <div class="navbar-nav ms-auto nav-links align-items-xl-center">
+            <a class="nav-link <?= activeClass('index.php'); ?>" href="<?= $basePath; ?>index.php">Ana Sayfa</a>
+            <div class="nav-item dropdown nav-dropdown">
+                <button class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Piyasalar</button>
+                <div class="dropdown-menu dropdown-menu-dark">
+                    <a class="dropdown-item <?= activeClass('markets.php'); ?>" href="<?= $basePath; ?>markets.php">Tüm Piyasalar</a>
+                    <a class="dropdown-item <?= activeClass('crypto.php'); ?>" href="<?= $basePath; ?>crypto.php">Kripto Paralar</a>
+                    <a class="dropdown-item <?= activeClass('forex.php'); ?>" href="<?= $basePath; ?>forex.php">Döviz</a>
+                    <a class="dropdown-item <?= activeClass('charts.php'); ?>" href="<?= $basePath; ?>charts.php">Grafikler</a>
                 </div>
             </div>
-            <a class="<?= activeClass('calculator.php'); ?>" href="<?= $basePath; ?>calculator.php">Finans Hesap Makinesi</a>
-            <a class="<?= activeClass('news.php'); ?>" href="<?= $basePath; ?>news.php">Haberler</a>
-            <a class="<?= activeClass('about.php'); ?>" href="<?= $basePath; ?>about.php">Hakkımızda</a>
-            <a class="<?= activeClass('contact.php'); ?>" href="<?= $basePath; ?>contact.php">İletişim</a>
+            <a class="nav-link <?= activeClass('calculator.php'); ?>" href="<?= $basePath; ?>calculator.php">Finans Hesap Makinesi</a>
+            <a class="nav-link <?= activeClass('news.php'); ?>" href="<?= $basePath; ?>news.php">Haberler</a>
+            <a class="nav-link <?= activeClass('about.php'); ?>" href="<?= $basePath; ?>about.php">Hakkımızda</a>
+            <a class="nav-link <?= activeClass('contact.php'); ?>" href="<?= $basePath; ?>contact.php">İletişim</a>
             <?php if (isLoggedIn()): ?>
-                <a class="<?= activeClass('dashboard.php'); ?>" href="<?= $basePath; ?>dashboard.php">Kullanıcı Paneli</a>
+                <a class="nav-link <?= activeClass('dashboard.php'); ?>" href="<?= $basePath; ?>dashboard.php">Kullanıcı Paneli</a>
                 <?php if (isAdmin()): ?>
-                    <a href="<?= $basePath; ?>admin/index.php">Admin Paneli</a>
+                    <a class="nav-link" href="<?= $basePath; ?>admin/index.php">Admin Paneli</a>
                 <?php endif; ?>
-                <a class="nav-button" href="<?= $basePath; ?>logout.php">Çıkış</a>
+                <a class="btn btn-efinans nav-button" href="<?= $basePath; ?>logout.php">Çıkış</a>
             <?php else: ?>
-                <a class="<?= activeClass('login.php'); ?>" href="<?= $basePath; ?>login.php">Giriş</a>
-                <a class="nav-button" href="<?= $basePath; ?>register.php">Kayıt Ol</a>
+                <a class="nav-link <?= activeClass('login.php'); ?>" href="<?= $basePath; ?>login.php">Giriş</a>
+                <a class="btn btn-efinans nav-button" href="<?= $basePath; ?>register.php">Kayıt Ol</a>
             <?php endif; ?>
+        </div>
+        </div>
         </div>
     </nav>
 </header>

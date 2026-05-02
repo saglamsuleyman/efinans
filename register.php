@@ -32,18 +32,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once __DIR__ . '/includes/header.php';
 ?>
 <section class="auth-section">
-    <form class="auth-card" method="post" action="register.php">
+    <form class="auth-card card" method="post" action="register.php">
         <p class="eyebrow">Yeni hesap</p>
         <h1>Kayıt Ol</h1>
-        <?php if ($error): ?><div class="alert error"><?= e($error); ?></div><?php endif; ?>
-        <?php if ($success): ?><div class="alert success"><?= e($success); ?></div><?php endif; ?>
-        <label for="full_name">Ad Soyad</label>
-        <input id="full_name" name="full_name" type="text" required autocomplete="name">
-        <label for="email">E-posta</label>
-        <input id="email" name="email" type="email" required autocomplete="email">
-        <label for="password">Şifre</label>
-        <input id="password" name="password" type="password" required autocomplete="new-password">
-        <button class="primary-button full" type="submit">Kayıt Ol</button>
+        <?php if ($error): ?><div class="alert alert-danger error"><?= e($error); ?></div><?php endif; ?>
+        <?php if ($success): ?><div class="alert alert-success success"><?= e($success); ?></div><?php endif; ?>
+        <label class="form-label" for="full_name">Ad Soyad</label>
+        <input class="form-control" id="full_name" name="full_name" type="text" required autocomplete="name">
+        <label class="form-label" for="email">E-posta</label>
+        <input class="form-control" id="email" name="email" type="email" required autocomplete="email">
+        <label class="form-label" for="password">Şifre</label>
+        <input class="form-control" id="password" name="password" type="password" required autocomplete="new-password">
+        <button class="btn btn-efinans w-100 mt-3 primary-button full" type="submit">Kayıt Ol</button>
         <p>Zaten hesabınız var mı? <a href="login.php">Giriş yapın</a></p>
     </form>
 </section>

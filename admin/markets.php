@@ -49,38 +49,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $markets = $pdo->query('SELECT * FROM markets ORDER BY category, name')->fetchAll();
 require_once __DIR__ . '/includes/admin_header.php';
 ?>
-<section class="admin-form-card">
+<section class="admin-form-card card">
     <h2><?= $editing ? 'Piyasa Verisi Düzenle' : 'Yeni Piyasa Verisi'; ?></h2>
     <form class="admin-form" method="post" action="markets.php">
         <input type="hidden" name="id" value="<?= (int)($editing['id'] ?? 0); ?>">
-        <label>Ad<input name="name" type="text" value="<?= e($editing['name'] ?? ''); ?>" required></label>
-        <label>Sembol<input name="symbol" type="text" value="<?= e($editing['symbol'] ?? ''); ?>"></label>
+        <label>Ad<input class="form-control" name="name" type="text" value="<?= e($editing['name'] ?? ''); ?>" required></label>
+        <label>Sembol<input class="form-control" name="symbol" type="text" value="<?= e($editing['symbol'] ?? ''); ?>"></label>
         <label>Kategori
-            <select name="category">
+            <select class="form-select" name="category">
                 <?php foreach (['Döviz', 'Kripto', 'Emtia', 'Borsa'] as $cat): ?>
                     <option value="<?= e($cat); ?>" <?= ($editing['category'] ?? '') === $cat ? 'selected' : ''; ?>><?= e($cat); ?></option>
                 <?php endforeach; ?>
             </select>
         </label>
-        <label>Fiyat<input name="price" type="number" step="0.0001" value="<?= e((string)($editing['price'] ?? '')); ?>" required></label>
-        <label>Değişim (%)<input name="change_rate" type="number" step="0.01" value="<?= e((string)($editing['change_rate'] ?? '')); ?>" required></label>
+        <label>Fiyat<input class="form-control" name="price" type="number" step="0.0001" value="<?= e((string)($editing['price'] ?? '')); ?>" required></label>
+        <label>Değişim (%)<input class="form-control" name="change_rate" type="number" step="0.01" value="<?= e((string)($editing['change_rate'] ?? '')); ?>" required></label>
         <label>Durum
-            <select name="status">
+            <select class="form-select" name="status">
                 <?php foreach (['Yükselişte', 'Düşüşte', 'Stabil'] as $status): ?>
                     <option value="<?= e($status); ?>" <?= ($editing['status'] ?? '') === $status ? 'selected' : ''; ?>><?= e($status); ?></option>
                 <?php endforeach; ?>
             </select>
         </label>
-        <label>Hacim<input name="volume" type="number" step="0.01" value="<?= e((string)($editing['volume'] ?? '')); ?>"></label>
-        <label>Piyasa Değeri<input name="market_cap" type="number" step="0.01" value="<?= e((string)($editing['market_cap'] ?? '')); ?>"></label>
-        <button class="admin-button span-4" type="submit"><?= $editing ? 'Güncelle' : 'Ekle'; ?></button>
+        <label>Hacim<input class="form-control" name="volume" type="number" step="0.01" value="<?= e((string)($editing['volume'] ?? '')); ?>"></label>
+        <label>Piyasa Değeri<input class="form-control" name="market_cap" type="number" step="0.01" value="<?= e((string)($editing['market_cap'] ?? '')); ?>"></label>
+        <button class="btn admin-button span-4" type="submit"><?= $editing ? 'Güncelle' : 'Ekle'; ?></button>
     </form>
 </section>
 
-<section class="admin-panel">
+<section class="admin-panel card">
     <h2>Piyasa Verileri</h2>
-    <div class="admin-table-wrap">
-        <table class="admin-table">
+    <div class="table-responsive admin-table-wrap">
+        <table class="table table-dark table-hover align-middle admin-table">
             <thead><tr><th>Ad</th><th>Sembol</th><th>Kategori</th><th>Fiyat</th><th>Değişim</th><th>Durum</th><th>Hacim</th><th>Piyasa Değeri</th><th>İşlem</th></tr></thead>
             <tbody>
             <?php foreach ($markets as $market): ?>

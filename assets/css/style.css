@@ -1,12 +1,13 @@
 :root {
-    --bg: #08090d;
-    --surface: #11131a;
-    --surface-2: #191c24;
+    --bg: #0b0b0f;
+    --surface: #15151c;
+    --surface-2: #1f1f2a;
     --line: #2a2f3a;
-    --text: #f6f7fb;
-    --muted: #a4acb9;
+    --text: #ffffff;
+    --muted: #b5b5c3;
     --red: #e50914;
-    --red-dark: #9f0710;
+    --red-dark: #b20710;
+    --red-light: #ff3b3b;
     --green: #23c483;
     --yellow: #f0b429;
     --shadow: 0 24px 70px rgba(0, 0, 0, .35);
@@ -28,6 +29,25 @@ body {
     color: var(--text);
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.6;
+}
+
+.bg-dark,
+.table-dark,
+.card {
+    --bs-bg-opacity: 1;
+}
+
+.btn-efinans,
+.btn-primary {
+    --bs-btn-bg: var(--red);
+    --bs-btn-border-color: var(--red);
+    --bs-btn-hover-bg: var(--red-light);
+    --bs-btn-hover-border-color: var(--red-light);
+    --bs-btn-color: #fff;
+}
+
+.btn-outline-light:hover {
+    color: #111;
 }
 
 a {
@@ -63,6 +83,12 @@ button {
     gap: 24px;
 }
 
+.site-nav-container {
+    max-width: 1180px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .logo {
     display: inline-flex;
     align-items: center;
@@ -88,7 +114,8 @@ button {
     gap: 6px;
 }
 
-.nav-links a {
+.nav-links a,
+.nav-dropdown > button {
     padding: 9px 10px;
     border-radius: 8px;
     color: var(--muted);
@@ -98,6 +125,7 @@ button {
 
 .nav-links a:hover,
 .nav-links a.active,
+.nav-links .nav-link.active,
 .nav-dropdown:hover > button,
 .nav-dropdown:focus-within > button {
     color: var(--text);
@@ -119,10 +147,6 @@ button {
 }
 
 .dropdown-menu {
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
-    display: none;
     min-width: 210px;
     padding: 8px;
     background: #0b0d12;
@@ -134,12 +158,6 @@ button {
 .dropdown-menu a {
     display: block;
     white-space: nowrap;
-}
-
-.nav-dropdown:hover .dropdown-menu,
-.nav-dropdown:focus-within .dropdown-menu,
-.nav-dropdown.open .dropdown-menu {
-    display: block;
 }
 
 .nav-links .nav-button,
@@ -194,7 +212,6 @@ button {
 }
 
 .menu-toggle {
-    display: none;
     width: 44px;
     height: 44px;
     border: 1px solid var(--line);
@@ -202,7 +219,7 @@ button {
     background: var(--surface);
 }
 
-.menu-toggle span {
+.menu-toggle span:not(.navbar-toggler-icon) {
     display: block;
     width: 20px;
     height: 2px;
@@ -275,6 +292,7 @@ button {
     border: 1px solid var(--line);
     border-radius: 8px;
     box-shadow: var(--shadow);
+    color: var(--text);
 }
 
 .hero-panel {
@@ -387,6 +405,15 @@ button {
     background: rgba(17, 19, 26, .78);
     border: 1px solid var(--line);
     border-radius: 8px;
+}
+
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--text);
+    --bs-table-border-color: var(--line);
+    --bs-table-hover-bg: rgba(229, 9, 20, .06);
+    --bs-table-hover-color: var(--text);
+    margin-bottom: 0;
 }
 
 .filter-bar {
@@ -518,6 +545,21 @@ textarea {
     outline: none;
 }
 
+.form-control,
+.form-select {
+    color: var(--text);
+    background-color: #0b0d12;
+    border-color: var(--line);
+}
+
+.form-control:focus,
+.form-select:focus {
+    color: var(--text);
+    background-color: #0b0d12;
+    border-color: var(--red);
+    box-shadow: 0 0 0 .25rem rgba(229, 9, 20, .16);
+}
+
 input:focus,
 select:focus,
 textarea:focus {
@@ -535,6 +577,12 @@ textarea:focus {
     color: #ffd3d6;
     background: rgba(229, 9, 20, .15);
     border: 1px solid rgba(229, 9, 20, .38);
+}
+
+.alert-error {
+    color: #ffd3d6;
+    background: rgba(229, 9, 20, .15);
+    border-color: rgba(229, 9, 20, .38);
 }
 
 .alert.success {
@@ -782,21 +830,14 @@ textarea:focus {
 }
 
 @media (max-width: 920px) {
-    .menu-toggle {
-        display: block;
-    }
-
     .nav-links {
-        position: absolute;
-        left: 16px;
-        right: 16px;
-        top: 76px;
-        display: none;
+        position: static;
+        display: flex;
         flex-direction: column;
         align-items: stretch;
         padding: 12px;
-        background: var(--surface);
-        border: 1px solid var(--line);
+        background: transparent;
+        border: 0;
         border-radius: 8px;
     }
 
@@ -804,17 +845,6 @@ textarea:focus {
     .nav-dropdown > button {
         width: 100%;
         text-align: left;
-    }
-
-    .dropdown-menu {
-        position: static;
-        display: none;
-        margin-top: 6px;
-        box-shadow: none;
-    }
-
-    .nav-links.open {
-        display: flex;
     }
 
     .hero,

@@ -18,14 +18,14 @@ $latestMessages = $pdo->query('SELECT name, email, subject, created_at FROM cont
 require_once __DIR__ . '/includes/admin_header.php';
 ?>
 <section class="admin-grid">
-    <article class="admin-card"><span>Toplam Kullanıcı</span><strong><?= (int)$stats['users']; ?></strong></article>
-    <article class="admin-card"><span>Piyasa Verisi</span><strong><?= (int)$stats['markets']; ?></strong></article>
-    <article class="admin-card"><span>Haber</span><strong><?= (int)$stats['news']; ?></strong></article>
-    <article class="admin-card"><span>İletişim Mesajı</span><strong><?= (int)$stats['messages']; ?></strong></article>
+    <article class="admin-card card"><span>Toplam Kullanıcı</span><strong><?= (int)$stats['users']; ?></strong></article>
+    <article class="admin-card card"><span>Piyasa Verisi</span><strong><?= (int)$stats['markets']; ?></strong></article>
+    <article class="admin-card card"><span>Haber</span><strong><?= (int)$stats['news']; ?></strong></article>
+    <article class="admin-card card"><span>İletişim Mesajı</span><strong><?= (int)$stats['messages']; ?></strong></article>
 </section>
 
 <section class="admin-sections">
-    <article class="admin-panel quick-actions">
+    <article class="admin-panel card quick-actions">
         <h2>Hızlı İşlemler</h2>
         <div class="quick-action-grid">
             <a class="admin-ghost" href="settings.php">Site Ayarlarını Düzenle</a>
@@ -34,7 +34,7 @@ require_once __DIR__ . '/includes/admin_header.php';
             <a class="admin-ghost" href="messages.php">Mesajları Gör</a>
         </div>
     </article>
-    <article class="admin-panel">
+    <article class="admin-panel card">
         <h2>Son Kayıt Olan Kullanıcılar</h2>
         <div class="admin-list">
             <?php foreach ($latestUsers as $user): ?>
@@ -45,7 +45,7 @@ require_once __DIR__ . '/includes/admin_header.php';
             <?php endforeach; ?>
         </div>
     </article>
-    <article class="admin-panel">
+    <article class="admin-panel card">
         <h2>Son Eklenen Haberler</h2>
         <div class="admin-list">
             <?php foreach ($latestNews as $item): ?>
@@ -56,7 +56,7 @@ require_once __DIR__ . '/includes/admin_header.php';
             <?php endforeach; ?>
         </div>
     </article>
-    <article class="admin-panel">
+    <article class="admin-panel card">
         <h2>Son Gelen Mesajlar</h2>
         <div class="admin-list">
             <?php foreach ($latestMessages as $message): ?>

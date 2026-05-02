@@ -29,15 +29,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once __DIR__ . '/includes/header.php';
 ?>
 <section class="auth-section">
-    <form class="auth-card" method="post" action="login.php">
+    <form class="auth-card card" method="post" action="login.php">
         <p class="eyebrow">Hesap erişimi</p>
         <h1>Giriş Yap</h1>
-        <?php if ($error): ?><div class="alert error"><?= e($error); ?></div><?php endif; ?>
-        <label for="email">E-posta</label>
-        <input id="email" name="email" type="email" required autocomplete="email">
-        <label for="password">Şifre</label>
-        <input id="password" name="password" type="password" required autocomplete="current-password">
-        <button class="primary-button full" type="submit">Giriş Yap</button>
+        <?php if ($error): ?><div class="alert alert-danger error"><?= e($error); ?></div><?php endif; ?>
+        <label class="form-label" for="email">E-posta</label>
+        <input class="form-control" id="email" name="email" type="email" required autocomplete="email">
+        <label class="form-label" for="password">Şifre</label>
+        <input class="form-control" id="password" name="password" type="password" required autocomplete="current-password">
+        <button class="btn btn-efinans w-100 mt-3 primary-button full" type="submit">Giriş Yap</button>
         <p>Hesabınız yok mu? <a href="register.php">Kayıt olun</a></p>
     </form>
 </section>

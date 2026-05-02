@@ -33,10 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $users = $pdo->query('SELECT id, full_name, email, role, created_at FROM users ORDER BY created_at DESC')->fetchAll();
 require_once __DIR__ . '/includes/admin_header.php';
 ?>
-<section class="admin-panel">
+<section class="admin-panel card">
     <h2>Kullanıcılar</h2>
-    <div class="admin-table-wrap">
-        <table class="admin-table">
+    <div class="table-responsive admin-table-wrap">
+        <table class="table table-dark table-hover align-middle admin-table">
             <thead><tr><th>ID</th><th>Ad Soyad</th><th>E-posta</th><th>Rol</th><th>Kayıt Tarihi</th><th>İşlem</th></tr></thead>
             <tbody>
             <?php foreach ($users as $user): ?>
@@ -50,16 +50,16 @@ require_once __DIR__ . '/includes/admin_header.php';
                         <form class="inline-form" method="post" action="users.php">
                             <input type="hidden" name="action" value="role">
                             <input type="hidden" name="user_id" value="<?= (int)$user['id']; ?>">
-                            <select name="role">
+                            <select class="form-select form-select-sm" name="role">
                                 <option value="user" <?= $user['role'] === 'user' ? 'selected' : ''; ?>>user</option>
                                 <option value="admin" <?= $user['role'] === 'admin' ? 'selected' : ''; ?>>admin</option>
                             </select>
-                            <button class="admin-small" type="submit">Kaydet</button>
+                            <button class="btn btn-sm admin-small" type="submit">Kaydet</button>
                         </form>
                         <form class="inline-form" method="post" action="users.php">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="user_id" value="<?= (int)$user['id']; ?>">
-                            <button class="admin-danger" type="submit" data-confirm="Bu kullanıcı silinsin mi?" <?= (int)$user['id'] === $currentUserId ? 'disabled' : ''; ?>>Sil</button>
+                            <button class="btn btn-sm admin-danger" type="submit" data-confirm="Bu kullanıcı silinsin mi?" <?= (int)$user['id'] === $currentUserId ? 'disabled' : ''; ?>>Sil</button>
                         </form>
                     </td>
                 </tr>

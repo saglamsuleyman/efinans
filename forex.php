@@ -19,7 +19,7 @@ require_once __DIR__ . '/includes/header.php';
 <section class="section">
     <div class="market-cards">
         <?php foreach ($forexItems as $item): ?>
-            <article class="market-card rate-card">
+            <article class="market-card rate-card card">
                 <span><?= e($item['symbol']); ?></span>
                 <h2><?= e($item['name']); ?></h2>
                 <p><?= number_format((float)$item['price'], 4, ',', '.'); ?></p>
@@ -31,8 +31,8 @@ require_once __DIR__ . '/includes/header.php';
 
 <section class="section data-section">
     <div class="section-heading compact"><h2>Döviz Tablosu</h2></div>
-    <div class="table-wrap">
-        <table>
+    <div class="table-responsive table-wrap">
+        <table class="table table-dark table-hover align-middle">
             <thead><tr><th>Kur</th><th>Sembol</th><th>Fiyat</th><th>Değişim</th><th>Hacim</th><th>Durum</th><th>İzleme</th></tr></thead>
             <tbody>
             <?php foreach ($forexItems as $item): ?>
@@ -46,7 +46,7 @@ require_once __DIR__ . '/includes/header.php';
                     <td>
                         <form method="post" action="add_to_watchlist.php">
                             <input type="hidden" name="market_id" value="<?= (int)$item['id']; ?>">
-                            <button class="small-button" type="submit">İzleme Listesine Ekle</button>
+                            <button class="btn btn-sm btn-efinans small-button" type="submit">İzleme Listesine Ekle</button>
                         </form>
                     </td>
                 </tr>

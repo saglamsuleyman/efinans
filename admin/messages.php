@@ -35,10 +35,10 @@ require_once __DIR__ . '/includes/admin_header.php';
 ?>
 <section class="admin-message-grid">
     <?php if (!$messages): ?>
-        <div class="admin-panel"><p class="admin-muted">Henüz iletişim mesajı bulunmuyor.</p></div>
+        <div class="admin-panel card"><p class="admin-muted">Henüz iletişim mesajı bulunmuyor.</p></div>
     <?php endif; ?>
     <?php foreach ($messages as $message): ?>
-        <article class="admin-message-card">
+        <article class="admin-message-card card">
             <header>
                 <div>
                     <h2><?= e($message['subject']); ?></h2>
@@ -53,12 +53,12 @@ require_once __DIR__ . '/includes/admin_header.php';
                     <form method="post" action="messages.php">
                         <input type="hidden" name="message_id" value="<?= (int)$message['id']; ?>">
                         <input type="hidden" name="action" value="<?= (int)$message['is_read'] === 1 ? 'unread' : 'read'; ?>">
-                        <button class="admin-small" type="submit"><?= (int)$message['is_read'] === 1 ? 'Okunmadı Yap' : 'Okundu Yap'; ?></button>
+                        <button class="btn btn-sm admin-small" type="submit"><?= (int)$message['is_read'] === 1 ? 'Okunmadı Yap' : 'Okundu Yap'; ?></button>
                     </form>
                     <form method="post" action="messages.php">
                         <input type="hidden" name="message_id" value="<?= (int)$message['id']; ?>">
                         <input type="hidden" name="action" value="delete">
-                        <button class="admin-danger" type="submit" data-confirm="Bu mesaj silinsin mi?">Sil</button>
+                        <button class="btn btn-sm admin-danger" type="submit" data-confirm="Bu mesaj silinsin mi?">Sil</button>
                     </form>
                 </div>
             </footer>

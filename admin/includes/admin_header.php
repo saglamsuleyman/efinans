@@ -11,6 +11,7 @@ $flash = adminFlash();
     <meta name="robots" content="noindex, nofollow">
     <title><?= e($adminPageTitle); ?></title>
     <meta name="description" content="<?= e($adminPageDescription); ?>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/admin.css">
 </head>
 <body class="admin-body">
@@ -25,12 +26,12 @@ $flash = adminFlash();
                 <p class="admin-eyebrow">Yönetim Paneli</p>
                 <h1><?= e($adminHeading ?? 'Dashboard'); ?></h1>
             </div>
-            <div class="admin-top-actions">
-                <a class="admin-ghost" href="../index.php">Siteyi Görüntüle</a>
-                <a class="admin-danger-link" href="logout.php">Çıkış</a>
+            <div class="admin-top-actions d-flex gap-2">
+                <a class="btn admin-ghost" href="../index.php">Siteyi Görüntüle</a>
+                <a class="btn admin-danger-link" href="logout.php">Çıkış</a>
             </div>
         </header>
         <?php if ($flash): ?>
-            <div class="admin-alert <?= e($flash['type']); ?>"><?= e($flash['message']); ?></div>
+            <div class="alert admin-alert <?= e($flash['type']); ?>"><?= e($flash['message']); ?></div>
         <?php endif; ?>
         <main class="admin-content">

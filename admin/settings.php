@@ -28,20 +28,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $settings = getSiteSettings($pdo);
 require_once __DIR__ . '/includes/admin_header.php';
 ?>
-<section class="admin-form-card">
+<section class="admin-form-card card">
     <h2>Genel Site Ayarları</h2>
     <form class="admin-form stacked" method="post" action="settings.php">
         <?php foreach ($settingLabels as $key => $label): ?>
             <label>
                 <?= e($label); ?>
                 <?php if (in_array($key, ['hero_description', 'footer_description', 'social_links'], true)): ?>
-                    <textarea name="<?= e($key); ?>" rows="3"><?= e($settings[$key] ?? ''); ?></textarea>
+                    <textarea class="form-control" name="<?= e($key); ?>" rows="3"><?= e($settings[$key] ?? ''); ?></textarea>
                 <?php else: ?>
-                    <input name="<?= e($key); ?>" type="text" value="<?= e($settings[$key] ?? ''); ?>">
+                    <input class="form-control" name="<?= e($key); ?>" type="text" value="<?= e($settings[$key] ?? ''); ?>">
                 <?php endif; ?>
             </label>
         <?php endforeach; ?>
-        <button class="admin-button" type="submit">Ayarları Kaydet</button>
+        <button class="btn admin-button" type="submit">Ayarları Kaydet</button>
     </form>
 </section>
 <?php require_once __DIR__ . '/includes/admin_footer.php'; ?>

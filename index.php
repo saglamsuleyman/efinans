@@ -22,9 +22,9 @@ require_once __DIR__ . '/includes/header.php';
         <h1><?= e(settingValue($siteSettings, 'hero_title', 'EfinanS ile piyasaları güçlü, hızlı ve sade takip edin.')); ?></h1>
         <p><?= e(settingValue($siteSettings, 'hero_description', 'Döviz, kripto, emtia, borsa verileri, manuel eklenen finans haberleri ve hesap araçlarıyla karar süreçlerinizi güçlendirin.')); ?></p>
         <div class="hero-actions">
-            <a class="primary-button" href="login.php">İşlem yapmak için giriş yapın</a>
-            <a class="secondary-button" href="#piyasalar">Piyasaları İncele</a>
-            <a class="secondary-button" href="charts.php">Grafikleri Aç</a>
+            <a class="btn btn-efinans primary-button" href="login.php">İşlem yapmak için giriş yapın</a>
+            <a class="btn btn-outline-light secondary-button" href="#piyasalar">Piyasaları İncele</a>
+            <a class="btn btn-outline-light secondary-button" href="charts.php">Grafikleri Aç</a>
         </div>
     </div>
     <aside class="hero-panel" aria-label="Piyasa özeti">
@@ -47,8 +47,8 @@ require_once __DIR__ . '/includes/header.php';
         <h2>Piyasa ekranları, grafikler, haberler ve hesap makineleri tek yerde.</h2>
     </div>
     <div class="hero-actions">
-        <a class="primary-button" href="register.php">Ücretsiz Kayıt Ol</a>
-        <a class="secondary-button" href="calculator.php">Hesap Makinesini Aç</a>
+        <a class="btn btn-efinans primary-button" href="register.php">Ücretsiz Kayıt Ol</a>
+        <a class="btn btn-outline-light secondary-button" href="calculator.php">Hesap Makinesini Aç</a>
     </div>
 </section>
 
@@ -59,7 +59,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
     <div class="market-cards">
         <?php foreach (array_slice($markets, 0, 8) as $market): ?>
-            <article class="market-card">
+            <article class="market-card card">
                 <span><?= e($market['category']); ?></span>
                 <h3><?= e($market['name']); ?></h3>
                 <p><?= number_format((float)$market['price'], 4, ',', '.'); ?></p>
@@ -76,8 +76,8 @@ require_once __DIR__ . '/includes/header.php';
         <div class="section-heading compact">
             <h2><?= e($category); ?> Tablosu</h2>
         </div>
-        <div class="table-wrap">
-            <table>
+        <div class="table-responsive table-wrap">
+            <table class="table table-dark table-hover align-middle">
                 <thead>
                 <tr>
                     <th>Varlık</th>
@@ -108,13 +108,13 @@ require_once __DIR__ . '/includes/header.php';
     </div>
     <div class="news-grid">
         <?php foreach ($newsItems as $item): ?>
-            <article class="news-card">
+            <article class="news-card card">
                 <div class="news-image"></div>
                 <div>
                     <time datetime="<?= e($item['created_at']); ?>"><?= date('d.m.Y', strtotime($item['created_at'])); ?></time>
                     <h3><?= e($item['title']); ?></h3>
                     <p><?= e($item['summary'] ?: substr($item['content'], 0, 140)); ?></p>
-                    <a class="small-button" href="news-detail.php?id=<?= (int)$item['id']; ?>">Detay</a>
+                    <a class="btn btn-sm btn-outline-light small-button" href="news-detail.php?id=<?= (int)$item['id']; ?>">Detay</a>
                 </div>
             </article>
         <?php endforeach; ?>

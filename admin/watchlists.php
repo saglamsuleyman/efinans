@@ -25,10 +25,10 @@ $items = $pdo->query('
 
 require_once __DIR__ . '/includes/admin_header.php';
 ?>
-<section class="admin-panel">
+<section class="admin-panel card">
     <h2>Kullanıcı İzleme Listeleri</h2>
-    <div class="admin-table-wrap">
-        <table class="admin-table">
+    <div class="table-responsive admin-table-wrap">
+        <table class="table table-dark table-hover align-middle admin-table">
             <thead><tr><th>Kullanıcı</th><th>E-posta</th><th>Piyasa</th><th>Sembol</th><th>Kategori</th><th>Eklenme</th><th>İşlem</th></tr></thead>
             <tbody>
             <?php foreach ($items as $item): ?>
@@ -42,7 +42,7 @@ require_once __DIR__ . '/includes/admin_header.php';
                     <td>
                         <form method="post" action="watchlists.php">
                             <input type="hidden" name="watch_id" value="<?= (int)$item['id']; ?>">
-                            <button class="admin-danger" type="submit" data-confirm="Bu izleme listesi kaydı silinsin mi?">Sil</button>
+                            <button class="btn btn-sm admin-danger" type="submit" data-confirm="Bu izleme listesi kaydı silinsin mi?">Sil</button>
                         </form>
                     </td>
                 </tr>

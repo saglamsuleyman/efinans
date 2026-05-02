@@ -41,17 +41,17 @@ require_once __DIR__ . '/includes/header.php';
 
 <section class="section">
     <form class="filter-bar" method="get" action="markets.php">
-        <input type="search" name="search" placeholder="Varlık veya sembol ara" value="<?= e($search); ?>">
-        <select name="category">
+        <input class="form-control" type="search" name="search" placeholder="Varlık veya sembol ara" value="<?= e($search); ?>">
+        <select class="form-select" name="category">
             <option value="">Tüm kategoriler</option>
             <?php foreach ($allowedCategories as $item): ?>
                 <option value="<?= e($item); ?>" <?= $category === $item ? 'selected' : ''; ?>><?= e($item); ?></option>
             <?php endforeach; ?>
         </select>
-        <button class="primary-button" type="submit">Filtrele</button>
+        <button class="btn btn-efinans primary-button" type="submit">Filtrele</button>
     </form>
-    <div class="table-wrap terminal-table">
-        <table>
+    <div class="table-responsive table-wrap terminal-table">
+        <table class="table table-dark table-hover align-middle">
             <thead>
             <tr>
                 <th>Varlık</th>
@@ -75,11 +75,11 @@ require_once __DIR__ . '/includes/header.php';
                     <td class="<?= (float)$market['change_rate'] >= 0 ? 'positive' : 'negative'; ?>"><?= e($market['change_rate']); ?>%</td>
                     <td><?= number_format((float)$market['volume'], 0, ',', '.'); ?></td>
                     <td><?= e($market['status']); ?></td>
-                    <td><a class="small-button" href="charts.php?category=<?= urlencode($market['category']); ?>">Aç</a></td>
+                    <td><a class="btn btn-sm btn-outline-light small-button" href="charts.php?category=<?= urlencode($market['category']); ?>">Aç</a></td>
                     <td>
                         <form method="post" action="add_to_watchlist.php">
                             <input type="hidden" name="market_id" value="<?= (int)$market['id']; ?>">
-                            <button class="small-button" type="submit">İzleme Listesine Ekle</button>
+                            <button class="btn btn-sm btn-efinans small-button" type="submit">İzleme Listesine Ekle</button>
                         </form>
                     </td>
                 </tr>

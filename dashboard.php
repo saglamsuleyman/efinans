@@ -36,7 +36,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<?php if ($message): ?><div class="section alert success"><?= e($message); ?></div><?php endif; ?>
+<?php if ($message): ?><div class="section alert alert-success success"><?= e($message); ?></div><?php endif; ?>
 
 <section class="section">
     <div class="section-heading compact">
@@ -47,13 +47,13 @@ require_once __DIR__ . '/includes/header.php';
     <?php else: ?>
         <div class="market-cards">
             <?php foreach ($watchlist as $market): ?>
-                <article class="market-card">
+                <article class="market-card card">
                     <span><?= e($market['category']); ?></span>
                     <h3><?= e($market['name']); ?></h3>
                     <p><?= number_format((float)$market['price'], 4, ',', '.'); ?></p>
                     <form method="post" action="remove_from_watchlist.php">
                         <input type="hidden" name="market_id" value="<?= (int)$market['id']; ?>">
-                        <button class="small-button" type="submit">Listeden Çıkar</button>
+                        <button class="btn btn-sm btn-outline-light small-button" type="submit">Listeden Çıkar</button>
                     </form>
                 </article>
             <?php endforeach; ?>
@@ -66,8 +66,8 @@ require_once __DIR__ . '/includes/header.php';
         <div class="section-heading compact">
             <h2><?= e($category); ?></h2>
         </div>
-        <div class="table-wrap">
-            <table>
+        <div class="table-responsive table-wrap">
+            <table class="table table-dark table-hover align-middle">
                 <thead>
                 <tr>
                     <th>Varlık</th>
@@ -90,7 +90,7 @@ require_once __DIR__ . '/includes/header.php';
                             <?php else: ?>
                                 <form method="post" action="add_to_watchlist.php">
                                     <input type="hidden" name="market_id" value="<?= (int)$market['id']; ?>">
-                                    <button class="small-button" type="submit">İzleme Listesine Ekle</button>
+                                    <button class="btn btn-sm btn-efinans small-button" type="submit">İzleme Listesine Ekle</button>
                                 </form>
                             <?php endif; ?>
                         </td>

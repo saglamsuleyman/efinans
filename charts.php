@@ -38,19 +38,19 @@ require_once __DIR__ . '/includes/header.php';
 
 <section class="section chart-grid">
     <?php foreach ($categories as $category): ?>
-        <article class="chart-card <?= $selectedCategory === $category ? 'highlight' : ''; ?>">
+        <article class="chart-card card <?= $selectedCategory === $category ? 'highlight' : ''; ?>">
             <div class="section-heading compact">
                 <h2><?= e($category); ?> Fiyat Grafiği</h2>
             </div>
             <canvas id="chart<?= e($category); ?>Line" height="150"></canvas>
         </article>
-        <article class="chart-card">
+        <article class="chart-card card">
             <div class="section-heading compact">
                 <h2><?= e($category); ?> Hacim Grafiği</h2>
             </div>
             <canvas id="chart<?= e($category); ?>Bar" height="150"></canvas>
         </article>
-        <article class="chart-card">
+        <article class="chart-card card">
             <div class="section-heading compact">
                 <h2><?= e($category); ?> Değişim Grafiği</h2>
             </div>

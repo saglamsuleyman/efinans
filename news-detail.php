@@ -35,7 +35,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="news-image article-image"></div>
         <?php endif; ?>
         <p><?= nl2br(e($article['content'])); ?></p>
-        <a class="secondary-button" href="news.php">Tüm Haberlere Dön</a>
+        <a class="btn btn-outline-light secondary-button" href="news.php">Tüm Haberlere Dön</a>
     </article>
 <?php endif; ?>
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

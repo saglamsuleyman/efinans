@@ -47,24 +47,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $newsItems = $pdo->query('SELECT * FROM news ORDER BY created_at DESC')->fetchAll();
 require_once __DIR__ . '/includes/admin_header.php';
 ?>
-<section class="admin-form-card">
+<section class="admin-form-card card">
     <h2><?= $editing ? 'Haber Düzenle' : 'Manuel Haber Ekle'; ?></h2>
     <p class="admin-muted">Haberler sadece manuel eklenir. Online haber çekme, API, RSS veya scraping kullanılmaz.</p>
     <form class="admin-form stacked" method="post" action="news.php">
         <input type="hidden" name="id" value="<?= (int)($editing['id'] ?? 0); ?>">
-        <label>Başlık<input name="title" type="text" value="<?= e($editing['title'] ?? ''); ?>" required></label>
-        <label>Özet<textarea name="summary" rows="3" required><?= e($editing['summary'] ?? ''); ?></textarea></label>
-        <label>İçerik<textarea name="content" rows="7" required><?= e($editing['content'] ?? ''); ?></textarea></label>
-        <label>Görsel Yolu<input name="image" type="text" value="<?= e($editing['image'] ?? ''); ?>" placeholder="assets/images/haber.jpg"></label>
-        <label>Oluşturulma Tarihi<input name="created_at" type="datetime-local" value="<?= isset($editing['created_at']) ? e(date('Y-m-d\TH:i', strtotime($editing['created_at']))) : e(date('Y-m-d\TH:i')); ?>"></label>
-        <button class="admin-button" type="submit"><?= $editing ? 'Güncelle' : 'Ekle'; ?></button>
+        <label>Başlık<input class="form-control" name="title" type="text" value="<?= e($editing['title'] ?? ''); ?>" required></label>
+        <label>Özet<textarea class="form-control" name="summary" rows="3" required><?= e($editing['summary'] ?? ''); ?></textarea></label>
+        <label>İçerik<textarea class="form-control" name="content" rows="7" required><?= e($editing['content'] ?? ''); ?></textarea></label>
+        <label>Görsel Yolu<input class="form-control" name="image" type="text" value="<?= e($editing['image'] ?? ''); ?>" placeholder="assets/images/haber.jpg"></label>
+        <label>Oluşturulma Tarihi<input class="form-control" name="created_at" type="datetime-local" value="<?= isset($editing['created_at']) ? e(date('Y-m-d\TH:i', strtotime($editing['created_at']))) : e(date('Y-m-d\TH:i')); ?>"></label>
+        <button class="btn admin-button" type="submit"><?= $editing ? 'Güncelle' : 'Ekle'; ?></button>
     </form>
 </section>
 
-<section class="admin-panel">
+<section class="admin-panel card">
     <h2>Haberler</h2>
-    <div class="admin-table-wrap">
-        <table class="admin-table">
+    <div class="table-responsive admin-table-wrap">
+        <table class="table table-dark table-hover align-middle admin-table">
             <thead><tr><th>Başlık</th><th>Özet</th><th>Tarih</th><th>İşlem</th></tr></thead>
             <tbody>
             <?php foreach ($newsItems as $item): ?>

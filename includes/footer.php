@@ -22,6 +22,7 @@
     </div>
     <p class="copyright">© <?= date('Y'); ?> EfinanS. Tüm hakları saklıdır.</p>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="<?= $basePath ?? ''; ?>assets/js/main.js"></script>
 </body>
 </html>
