@@ -3,7 +3,21 @@ require_once __DIR__ . '/includes/db.php';
 
 $pageTitle = 'Finans Haberleri - EfinanS';
 $metaDescription = 'EfinanS haberler sayfasında admin panelinden manuel eklenen finans, piyasa, kripto, döviz ve emtia haberlerini okuyun.';
-$newsItems = $pdo->query('SELECT * FROM news ORDER BY created_at DESC')->fetchAll();
+
+$search = trim($_GET['search'] ?? '');
+$params = [];
+$sql = 'SELECT * FROM news';
+
+if ($search !== '') {
+    $sql .= ' WHERE title LIKE ? OR summary LIKE ?';
+    $params[] = '%' . $search . '%';
+    $params[] = '%' . $search . '%';
+}
+
+$sql .= ' ORDER BY created_at DESC';
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
+$newsItems = $stmt->fetchAll();
 
 require_once __DIR__ . '/includes/header.php';
 ?>
@@ -13,6 +27,14 @@ require_once __DIR__ . '/includes/header.php';
     <p>Admin panelinden manuel eklenen finans haberlerini, özetleri ve detay sayfalarıyla takip edin.</p>
 </section>
 <section class="section">
+    <form class="filter-card filter-grid" method="get" action="news.php">
+        <input class="form-control" type="search" name="search" placeholder="Haber başlığı veya özet ara" value="<?= e($search); ?>">
+        <button class="btn btn-efinans primary-button" type="submit">Ara</button>
+        <a class="btn btn-outline-light secondary-button" href="news.php">Filtreleri Temizle</a>
+    </form>
+    <?php if (!$newsItems): ?>
+        <div class="alert alert-error">Aramanızla eşleşen sonuç bulunamadı.</div>
+    <?php endif; ?>
     <div class="news-grid expanded">
         <?php foreach ($newsItems as $item): ?>
             <article class="news-card card" itemscope itemtype="https://schema.org/Article">

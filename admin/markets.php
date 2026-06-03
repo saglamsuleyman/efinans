@@ -46,7 +46,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-$markets = $pdo->query('SELECT * FROM markets ORDER BY category, name')->fetchAll();
+$search = trim($_GET['search'] ?? '');
+$category = trim($_GET['category'] ?? '');
+$allowedCategories = ['Döviz', 'Kripto', 'Emtia', 'Borsa'];
+$conditions = [];
+$params = [];
+
+if ($search !== '') {
+    $conditions[] = 'name LIKE ?';
+    $params[] = '%' . $search . '%';
+}
+
+if (in_array($category, $allowedCategories, true)) {
+    $conditions[] = 'category = ?';
+    $params[] = $category;
+}
+
+$sql = 'SELECT * FROM markets';
+if ($conditions) {
+    $sql .= ' WHERE ' . implode(' AND ', $conditions);
+}
+$sql .= ' ORDER BY category, name';
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
+$markets = $stmt->fetchAll();
 require_once __DIR__ . '/includes/admin_header.php';
 ?>
 <section class="admin-form-card card">
@@ -79,6 +102,20 @@ require_once __DIR__ . '/includes/admin_header.php';
 
 <section class="admin-panel card">
     <h2>Piyasa Verileri</h2>
+    <form class="admin-filter-card" method="get" action="markets.php">
+        <input class="form-control" type="search" name="search" placeholder="Piyasa adına göre ara" value="<?= e($search); ?>">
+        <select class="form-select" name="category">
+            <option value="">Tüm kategoriler</option>
+            <?php foreach ($allowedCategories as $cat): ?>
+                <option value="<?= e($cat); ?>" <?= $category === $cat ? 'selected' : ''; ?>><?= e($cat); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <button class="btn admin-button" type="submit">Filtrele</button>
+        <a class="btn admin-ghost" href="markets.php">Filtreleri Temizle</a>
+    </form>
+    <?php if (!$markets): ?>
+        <p class="admin-muted">Aramanızla eşleşen sonuç bulunamadı.</p>
+    <?php endif; ?>
     <div class="table-responsive admin-table-wrap">
         <table class="table table-dark table-hover align-middle admin-table">
             <thead><tr><th>Ad</th><th>Sembol</th><th>Kategori</th><th>Fiyat</th><th>Değişim</th><th>Durum</th><th>Hacim</th><th>Piyasa Değeri</th><th>İşlem</th></tr></thead>

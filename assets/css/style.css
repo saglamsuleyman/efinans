@@ -114,6 +114,26 @@ button {
     gap: 6px;
 }
 
+.nav-search {
+    display: grid;
+    grid-template-columns: minmax(180px, 260px) auto;
+    gap: 7px;
+    align-items: center;
+    margin-left: 4px;
+}
+
+.nav-search .form-control {
+    min-height: 36px;
+    padding: 8px 10px;
+    font-size: .88rem;
+}
+
+.nav-search .btn {
+    min-height: 36px;
+    border-radius: 8px;
+    font-weight: 800;
+}
+
 .nav-links a,
 .nav-dropdown > button {
     padding: 9px 10px;
@@ -416,11 +436,28 @@ button {
     margin-bottom: 0;
 }
 
-.filter-bar {
+.filter-bar,
+.filter-card {
     display: grid;
     grid-template-columns: minmax(220px, 1fr) 220px auto;
     gap: 10px;
     margin-bottom: 16px;
+}
+
+.filter-card {
+    padding: 16px;
+    background: linear-gradient(180deg, rgba(25, 28, 36, .96), rgba(17, 19, 26, .96));
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.filter-grid {
+    grid-template-columns: minmax(220px, 1fr) repeat(2, minmax(160px, auto));
+}
+
+.markets-filter {
+    grid-template-columns: minmax(190px, 1fr) 150px 150px minmax(210px, 1fr) auto auto;
 }
 
 .terminal-table th,
@@ -841,6 +878,12 @@ textarea:focus {
         border-radius: 8px;
     }
 
+    .nav-search {
+        grid-template-columns: 1fr auto;
+        width: 100%;
+        margin-left: 0;
+    }
+
     .nav-dropdown,
     .nav-dropdown > button {
         width: 100%;
@@ -904,6 +947,9 @@ textarea:focus {
     .footer-grid,
     .admin-form,
     .filter-bar,
+    .filter-card,
+    .filter-grid,
+    .markets-filter,
     .calculator-grid,
     .chart-grid,
     .feature-grid {
@@ -920,5 +966,9 @@ textarea:focus {
     .primary-button,
     .secondary-button {
         width: 100%;
+    }
+
+    .nav-search {
+        grid-template-columns: 1fr;
     }
 }

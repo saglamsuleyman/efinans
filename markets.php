@@ -6,12 +6,26 @@ $metaDescription = 'EfinanS piyasalar sayfasında döviz, kripto, emtia ve borsa
 
 $search = trim($_GET['search'] ?? '');
 $category = trim($_GET['category'] ?? '');
+$status = trim($_GET['status'] ?? '');
+$sort = trim($_GET['sort'] ?? 'name_asc');
 $allowedCategories = ['Döviz', 'Kripto', 'Emtia', 'Borsa'];
+$allowedStatuses = ['Yükselişte', 'Düşüşte', 'Stabil'];
+$allowedSorts = [
+    'name_asc' => 'name ASC',
+    'price_asc' => 'price ASC',
+    'price_desc' => 'price DESC',
+    'change_asc' => 'change_rate ASC',
+    'change_desc' => 'change_rate DESC',
+];
+if (!array_key_exists($sort, $allowedSorts)) {
+    $sort = 'name_asc';
+}
 $conditions = [];
 $params = [];
 
 if ($search !== '') {
-    $conditions[] = '(name LIKE ? OR symbol LIKE ?)';
+    $conditions[] = '(name LIKE ? OR symbol LIKE ? OR category LIKE ?)';
+    $params[] = '%' . $search . '%';
     $params[] = '%' . $search . '%';
     $params[] = '%' . $search . '%';
 }
@@ -21,11 +35,16 @@ if (in_array($category, $allowedCategories, true)) {
     $params[] = $category;
 }
 
+if (in_array($status, $allowedStatuses, true)) {
+    $conditions[] = 'status = ?';
+    $params[] = $status;
+}
+
 $sql = 'SELECT * FROM markets';
 if ($conditions) {
     $sql .= ' WHERE ' . implode(' AND ', $conditions);
 }
-$sql .= ' ORDER BY category, name';
+$sql .= ' ORDER BY ' . $allowedSorts[$sort];
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
@@ -40,16 +59,33 @@ require_once __DIR__ . '/includes/header.php';
 </section>
 
 <section class="section">
-    <form class="filter-bar" method="get" action="markets.php">
+    <form class="filter-card filter-grid markets-filter" method="get" action="markets.php">
         <input class="form-control" type="search" name="search" placeholder="Varlık veya sembol ara" value="<?= e($search); ?>">
         <select class="form-select" name="category">
-            <option value="">Tüm kategoriler</option>
+            <option value="">Tümü</option>
             <?php foreach ($allowedCategories as $item): ?>
                 <option value="<?= e($item); ?>" <?= $category === $item ? 'selected' : ''; ?>><?= e($item); ?></option>
             <?php endforeach; ?>
         </select>
+        <select class="form-select" name="status">
+            <option value="">Tümü</option>
+            <?php foreach ($allowedStatuses as $item): ?>
+                <option value="<?= e($item); ?>" <?= $status === $item ? 'selected' : ''; ?>><?= e($item); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <select class="form-select" name="sort">
+            <option value="name_asc" <?= $sort === 'name_asc' ? 'selected' : ''; ?>>Ada göre A-Z</option>
+            <option value="price_asc" <?= $sort === 'price_asc' ? 'selected' : ''; ?>>Fiyata göre artan</option>
+            <option value="price_desc" <?= $sort === 'price_desc' ? 'selected' : ''; ?>>Fiyata göre azalan</option>
+            <option value="change_asc" <?= $sort === 'change_asc' ? 'selected' : ''; ?>>Değişim oranına göre artan</option>
+            <option value="change_desc" <?= $sort === 'change_desc' ? 'selected' : ''; ?>>Değişim oranına göre azalan</option>
+        </select>
         <button class="btn btn-efinans primary-button" type="submit">Filtrele</button>
+        <a class="btn btn-outline-light secondary-button" href="markets.php">Filtreleri Temizle</a>
     </form>
+    <?php if (!$markets): ?>
+        <div class="alert alert-error">Aramanızla eşleşen sonuç bulunamadı.</div>
+    <?php endif; ?>
     <div class="table-responsive table-wrap terminal-table">
         <table class="table table-dark table-hover align-middle">
             <thead>

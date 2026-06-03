@@ -45,6 +45,10 @@ $displaySiteName = $siteSettings['site_name'] ?? 'EfinanS';
             <a class="nav-link <?= activeClass('news.php'); ?>" href="<?= $basePath; ?>news.php">Haberler</a>
             <a class="nav-link <?= activeClass('about.php'); ?>" href="<?= $basePath; ?>about.php">Hakkımızda</a>
             <a class="nav-link <?= activeClass('contact.php'); ?>" href="<?= $basePath; ?>contact.php">İletişim</a>
+            <form class="nav-search" method="get" action="<?= $basePath; ?>search.php" role="search">
+                <input class="form-control form-control-sm" type="search" name="q" placeholder="Piyasa, kripto, döviz veya haber ara..." value="<?= activeClass('search.php') ? e(trim($_GET['q'] ?? '')) : ''; ?>" aria-label="Site içinde ara">
+                <button class="btn btn-sm btn-efinans" type="submit">Ara</button>
+            </form>
             <?php if (isLoggedIn()): ?>
                 <a class="nav-link <?= activeClass('dashboard.php'); ?>" href="<?= $basePath; ?>dashboard.php">Kullanıcı Paneli</a>
                 <?php if (isAdmin()): ?>

@@ -4,8 +4,35 @@ require_once __DIR__ . '/includes/db.php';
 $pageTitle = 'Kripto Paralar - EfinanS';
 $metaDescription = 'Bitcoin, Ethereum, Solana, BNB ve XRP dahil kripto para piyasalarını EfinanS koyu temalı tabloda takip edin.';
 
-$stmt = $pdo->prepare("SELECT * FROM markets WHERE category = ? ORDER BY market_cap DESC, name");
-$stmt->execute(['Kripto']);
+$search = trim($_GET['search'] ?? '');
+$status = trim($_GET['status'] ?? '');
+$sort = trim($_GET['sort'] ?? 'price_desc');
+$allowedStatuses = ['Yükselişte', 'Düşüşte', 'Stabil'];
+$allowedSorts = [
+    'price_asc' => 'price ASC',
+    'price_desc' => 'price DESC',
+];
+if (!array_key_exists($sort, $allowedSorts)) {
+    $sort = 'price_desc';
+}
+
+$conditions = ['category = ?'];
+$params = ['Kripto'];
+
+if ($search !== '') {
+    $conditions[] = '(name LIKE ? OR symbol LIKE ?)';
+    $params[] = '%' . $search . '%';
+    $params[] = '%' . $search . '%';
+}
+
+if (in_array($status, $allowedStatuses, true)) {
+    $conditions[] = 'status = ?';
+    $params[] = $status;
+}
+
+$sql = 'SELECT * FROM markets WHERE ' . implode(' AND ', $conditions) . ' ORDER BY ' . $allowedSorts[$sort] . ', name';
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
 $cryptos = $stmt->fetchAll();
 
 require_once __DIR__ . '/includes/header.php';
@@ -20,6 +47,24 @@ require_once __DIR__ . '/includes/header.php';
 </section>
 
 <section class="section">
+    <form class="filter-card filter-grid" method="get" action="crypto.php">
+        <input class="form-control" type="search" name="search" placeholder="Kripto adı veya sembol ara" value="<?= e($search); ?>">
+        <select class="form-select" name="status">
+            <option value="">Tümü</option>
+            <?php foreach ($allowedStatuses as $item): ?>
+                <option value="<?= e($item); ?>" <?= $status === $item ? 'selected' : ''; ?>><?= e($item); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <select class="form-select" name="sort">
+            <option value="price_desc" <?= $sort === 'price_desc' ? 'selected' : ''; ?>>Fiyata göre azalan</option>
+            <option value="price_asc" <?= $sort === 'price_asc' ? 'selected' : ''; ?>>Fiyata göre artan</option>
+        </select>
+        <button class="btn btn-efinans primary-button" type="submit">Filtrele</button>
+        <a class="btn btn-outline-light secondary-button" href="crypto.php">Filtreleri Temizle</a>
+    </form>
+    <?php if (!$cryptos): ?>
+        <div class="alert alert-error">Aramanızla eşleşen sonuç bulunamadı.</div>
+    <?php endif; ?>
     <div class="table-responsive table-wrap trading-table">
         <table class="table table-dark table-hover align-middle">
             <thead>

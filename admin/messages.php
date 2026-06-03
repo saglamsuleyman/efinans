@@ -30,12 +30,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-$messages = $pdo->query('SELECT * FROM contact_messages ORDER BY created_at DESC')->fetchAll();
+$search = trim($_GET['search'] ?? '');
+$readStatus = trim($_GET['read_status'] ?? '');
+$allowedReadStatuses = ['read', 'unread'];
+$conditions = [];
+$params = [];
+
+if ($search !== '') {
+    $conditions[] = '(name LIKE ? OR email LIKE ? OR subject LIKE ?)';
+    $params[] = '%' . $search . '%';
+    $params[] = '%' . $search . '%';
+    $params[] = '%' . $search . '%';
+}
+
+if (in_array($readStatus, $allowedReadStatuses, true)) {
+    $conditions[] = 'is_read = ?';
+    $params[] = $readStatus === 'read' ? 1 : 0;
+}
+
+$sql = 'SELECT * FROM contact_messages';
+if ($conditions) {
+    $sql .= ' WHERE ' . implode(' AND ', $conditions);
+}
+$sql .= ' ORDER BY created_at DESC';
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
+$messages = $stmt->fetchAll();
 require_once __DIR__ . '/includes/admin_header.php';
 ?>
+<section class="admin-panel card admin-filter-panel">
+    <h2>Mesaj Arama</h2>
+    <form class="admin-filter-card" method="get" action="messages.php">
+        <input class="form-control" type="search" name="search" placeholder="Ad, e-posta veya konu ara" value="<?= e($search); ?>">
+        <select class="form-select" name="read_status">
+            <option value="">Tüm mesajlar</option>
+            <option value="read" <?= $readStatus === 'read' ? 'selected' : ''; ?>>Okundu</option>
+            <option value="unread" <?= $readStatus === 'unread' ? 'selected' : ''; ?>>Okunmadı</option>
+        </select>
+        <button class="btn admin-button" type="submit">Filtrele</button>
+        <a class="btn admin-ghost" href="messages.php">Filtreleri Temizle</a>
+    </form>
+</section>
 <section class="admin-message-grid">
     <?php if (!$messages): ?>
-        <div class="admin-panel card"><p class="admin-muted">Henüz iletişim mesajı bulunmuyor.</p></div>
+        <div class="admin-panel card"><p class="admin-muted">Aramanızla eşleşen sonuç bulunamadı.</p></div>
     <?php endif; ?>
     <?php foreach ($messages as $message): ?>
         <article class="admin-message-card card">

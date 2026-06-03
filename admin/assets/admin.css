@@ -306,6 +306,26 @@ button {
     padding: 18px;
 }
 
+.admin-filter-panel {
+    margin-bottom: 14px;
+}
+
+.admin-filter-card {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) minmax(160px, 220px) auto auto;
+    gap: 10px;
+    align-items: center;
+    margin: 0 0 14px;
+    padding: 14px;
+    background: #0b0d12;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+}
+
+.admin-filter-card .btn {
+    min-height: 42px;
+}
+
 .admin-panel h2,
 .admin-form-card h2 {
     margin: 0 0 14px;
@@ -566,6 +586,10 @@ button:disabled {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .admin-filter-card {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .admin-form .span-4 {
         grid-column: span 2;
     }
@@ -610,7 +634,8 @@ button:disabled {
 
 @media (max-width: 620px) {
     .admin-grid,
-    .admin-form {
+    .admin-form,
+    .admin-filter-card {
         grid-template-columns: 1fr;
     }
 

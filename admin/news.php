@@ -44,7 +44,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-$newsItems = $pdo->query('SELECT * FROM news ORDER BY created_at DESC')->fetchAll();
+$search = trim($_GET['search'] ?? '');
+$sql = 'SELECT * FROM news';
+$params = [];
+
+if ($search !== '') {
+    $sql .= ' WHERE title LIKE ?';
+    $params[] = '%' . $search . '%';
+}
+
+$sql .= ' ORDER BY created_at DESC';
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
+$newsItems = $stmt->fetchAll();
 require_once __DIR__ . '/includes/admin_header.php';
 ?>
 <section class="admin-form-card card">
@@ -63,6 +75,14 @@ require_once __DIR__ . '/includes/admin_header.php';
 
 <section class="admin-panel card">
     <h2>Haberler</h2>
+    <form class="admin-filter-card" method="get" action="news.php">
+        <input class="form-control" type="search" name="search" placeholder="Haber başlığına göre ara" value="<?= e($search); ?>">
+        <button class="btn admin-button" type="submit">Ara</button>
+        <a class="btn admin-ghost" href="news.php">Filtreleri Temizle</a>
+    </form>
+    <?php if (!$newsItems): ?>
+        <p class="admin-muted">Aramanızla eşleşen sonuç bulunamadı.</p>
+    <?php endif; ?>
     <div class="table-responsive admin-table-wrap">
         <table class="table table-dark table-hover align-middle admin-table">
             <thead><tr><th>Başlık</th><th>Özet</th><th>Tarih</th><th>İşlem</th></tr></thead>

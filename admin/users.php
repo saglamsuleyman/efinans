@@ -30,11 +30,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-$users = $pdo->query('SELECT id, full_name, email, role, created_at FROM users ORDER BY created_at DESC')->fetchAll();
+$search = trim($_GET['search'] ?? '');
+$role = trim($_GET['role'] ?? '');
+$allowedRoles = ['user', 'admin'];
+$conditions = [];
+$params = [];
+
+if ($search !== '') {
+    $conditions[] = '(full_name LIKE ? OR email LIKE ?)';
+    $params[] = '%' . $search . '%';
+    $params[] = '%' . $search . '%';
+}
+
+if (in_array($role, $allowedRoles, true)) {
+    $conditions[] = 'role = ?';
+    $params[] = $role;
+}
+
+$sql = 'SELECT id, full_name, email, role, created_at FROM users';
+if ($conditions) {
+    $sql .= ' WHERE ' . implode(' AND ', $conditions);
+}
+$sql .= ' ORDER BY created_at DESC';
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
+$users = $stmt->fetchAll();
 require_once __DIR__ . '/includes/admin_header.php';
 ?>
 <section class="admin-panel card">
     <h2>Kullanıcılar</h2>
+    <form class="admin-filter-card" method="get" action="users.php">
+        <input class="form-control" type="search" name="search" placeholder="Kullanıcı adı veya e-posta ara" value="<?= e($search); ?>">
+        <select class="form-select" name="role">
+            <option value="">Tüm roller</option>
+            <?php foreach ($allowedRoles as $item): ?>
+                <option value="<?= e($item); ?>" <?= $role === $item ? 'selected' : ''; ?>><?= e($item); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <button class="btn admin-button" type="submit">Filtrele</button>
+        <a class="btn admin-ghost" href="users.php">Filtreleri Temizle</a>
+    </form>
+    <?php if (!$users): ?>
+        <p class="admin-muted">Aramanızla eşleşen sonuç bulunamadı.</p>
+    <?php endif; ?>
     <div class="table-responsive admin-table-wrap">
         <table class="table table-dark table-hover align-middle admin-table">
             <thead><tr><th>ID</th><th>Ad Soyad</th><th>E-posta</th><th>Rol</th><th>Kayıt Tarihi</th><th>İşlem</th></tr></thead>
